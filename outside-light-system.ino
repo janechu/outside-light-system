@@ -1,3 +1,5 @@
+#include <toneAC.h>
+
 /**
  * # Program
  * Triggers:
@@ -30,11 +32,15 @@ const int motionSensorIndicator3 = 4;
 const int motionSensorIndicator4 = 5;
 const int motionSensorIndicator5 = 6;
 const int lowLightIndicator = 7;
-const int ultrasonicTweeter1 = 8;
-const int ultrasonicTweeter2 = 9;
-const int ultrasonicTweeterOverrideToggle = 10;
-const int outsideLights = 11;
-const int outsideLightOverrideIndicatorTrigger = 12;
+const int ultrasonicTweeterOverrideToggle = 8;
+// The toneAC library uses pins 9 & 10
+// there are therefore not used but stored
+// for reference
+const int ultrasonicTweeterPositive = 9;
+const int ultrasonicTweeterNegative = 10;
+const int ultrasonicTweeterOverrideToggleIndicator = 11;
+const int outsideLights = 12;
+const int outsideLightOverrideIndicatorTrigger = 13;
 
 /**
  * Analog I/O
@@ -127,7 +133,8 @@ void updateMotionDetected() {
 }
 
 void updateLowLightDetected() {
-  lowLightDetected = analogRead(lowLightSensor) <= 512;
+  // The higher this is set, the more darker the trigger will be
+  lowLightDetected = analogRead(lowLightSensor) >= 900;
 
   if (lowLightDetected) {
     digitalWrite(lowLightIndicator, HIGH);
@@ -192,11 +199,11 @@ void loop() {
   }
 
   if (shouldUltrasonicSoundTurnOn() == true) {
-    digitalWrite(ultrasonicTweeter1, HIGH);
-    digitalWrite(ultrasonicTweeter2, HIGH);
+    // turn on the ultrasonic tweeters at 20khz
+    // this is for both tweeters
+    toneAC(20000);
   } else {
-    digitalWrite(ultrasonicTweeter1, LOW);
-    digitalWrite(ultrasonicTweeter2, LOW);
+    noToneAC();
   }
   
   updateMotionDetected();
