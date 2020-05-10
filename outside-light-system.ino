@@ -133,7 +133,7 @@ void updateMotionDetected() {
 
 void updateLowLightDetected() {
   // The lower this is set, the more darker the trigger will be
-  lowLightDetected = analogRead(lowLightSensor) >= 100;
+  lowLightDetected = analogRead(lowLightSensor) <= 20;
 
   if (lowLightDetected) {
     digitalWrite(lowLightIndicator, HIGH);
@@ -156,7 +156,7 @@ boolean shouldOutsideLightsTurnOn() {
 
 boolean shouldUltrasonicSoundTurnOn() {
   if (
-    digitalRead(ultrasonicTweeterOverrideToggle) == HIGH
+    digitalRead(ultrasonicTweeterOverrideToggle) == LOW
     && motionDetectedState
   ) {
     return true;
@@ -185,6 +185,7 @@ void setup() {
   pinMode(motionSensorIndicator5, OUTPUT);
   pinMode(lowLightIndicator, OUTPUT);
   pinMode(outsideLights, OUTPUT);
+  pinMode(ultrasonicTweeterOverrideToggle, INPUT);
 
   calibrateMotionSensors();
 }
