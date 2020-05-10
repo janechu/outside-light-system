@@ -38,9 +38,8 @@ const int ultrasonicTweeterOverrideToggle = 8;
 // for reference
 const int ultrasonicTweeterPositive = 9;
 const int ultrasonicTweeterNegative = 10;
-const int ultrasonicTweeterOverrideToggleIndicator = 11;
+const int outsideLightOverrideIndicatorTrigger = 11;
 const int outsideLights = 12;
-const int outsideLightOverrideIndicatorTrigger = 13;
 
 /**
  * Analog I/O
@@ -133,8 +132,8 @@ void updateMotionDetected() {
 }
 
 void updateLowLightDetected() {
-  // The higher this is set, the more darker the trigger will be
-  lowLightDetected = analogRead(lowLightSensor) >= 900;
+  // The lower this is set, the more darker the trigger will be
+  lowLightDetected = analogRead(lowLightSensor) >= 100;
 
   if (lowLightDetected) {
     digitalWrite(lowLightIndicator, HIGH);
@@ -178,12 +177,14 @@ void setup() {
   digitalWrite(motionSensor4, LOW);
   pinMode(motionSensor5, INPUT);
   digitalWrite(motionSensor5, LOW);
+  pinMode(lowLightSensor, INPUT);
   pinMode(motionSensorIndicator1, OUTPUT);
   pinMode(motionSensorIndicator2, OUTPUT);
   pinMode(motionSensorIndicator3, OUTPUT);
   pinMode(motionSensorIndicator4, OUTPUT);
   pinMode(motionSensorIndicator5, OUTPUT);
   pinMode(lowLightIndicator, OUTPUT);
+  pinMode(outsideLights, OUTPUT);
 
   calibrateMotionSensors();
 }
